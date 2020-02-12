@@ -1,34 +1,30 @@
-const start = () => {
-  Type: "Response";
-  Message: "Welcome to the registration portal\nPlease enter your full name:";
-  ClientState: 1;
+const response = (type = null, message = null, clientState = null) => {
+  return {
+    Type: type,
+    Message: message,
+    ClientState: clientState
+  };
 };
 
-const get_ward_name = () => {
-  Type: "Response";
-  Message: "Please enter your ward's name:";
-  ClientState: 2;
-};
+const start = () =>
+  response(
+    "Response",
+    "Welcome to the registration portal\nPlease enter your full name:",
+    1
+  );
 
-const get_national_id = () => {
-  Type: "Response";
-  Message: "Please enter your National Id:";
-  ClientState: 3;
-};
+const get_ward_name = () =>
+  response("Response", "Please enter your ward's name:", 2);
 
-const summary = () => {
-  Type: "Release";
-  Message: "Thank you for using our ussd service";
-  ClientState: null;
-};
+const get_national_id = () =>
+  response("Response", "Please enter your National Id:", 3);
 
-const error = () => {
-  Type: "Release";
-  Message: "Sorry something went wrong";
-  ClientState: null;
-};
+const summary = () =>
+  response("Release", "Thank you for using our ussd service", null);
 
-const router = request_body => {
+const error = () => response("Release", "Sorry something went wrong", null);
+
+const ussd_router = request_body => {
   const state_map = {
     1: get_ward_name(),
     2: get_national_id(),
@@ -42,4 +38,4 @@ const router = request_body => {
     : error();
 };
 
-module.exports = router;
+module.exports = ussd_router;
